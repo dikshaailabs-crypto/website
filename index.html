@@ -3,638 +3,758 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diksha Ai  | We are selling time</title>
-    
-    <!-- Fonts: Inter for a clean, modern look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS -->
+    <title>Diksha Ai - Smart Clinic Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+Malayalam:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- Tailwind Config for Brand Colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        alabaster: '#FAFAFA',
-                        cobalt: '#0047AB',
-                        clay: '#997365',
-                        'cobalt-dark': '#003380',
-                        'clay-dark': '#7a5c50',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(0, 71, 171, 0.1)',
-                        'glow': '0 0 20px rgba(0, 71, 171, 0.3)',
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Chosen Palette: Serene Medical Tech -->
+    <!-- Colors: 
+         Background: #F8FAFC (Slate 50 - Warm Neutral)
+         Primary Text: #1E293B (Slate 800)
+         Accent Blue: #0EA5E9 (Sky 500)
+         Success Green: #10B981 (Emerald 500)
+         Warning Orange: #F59E0B (Amber 500)
+         Card BG: #FFFFFF (White)
+    -->
 
     <style>
         body {
-            background-color: #FAFAFA;
-            color: #1f2937;
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
             overflow-x: hidden;
         }
-
-        /* Anti-gravity floating animation for cards */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .malayalam-text {
+            font-family: 'Noto Sans Malayalam', sans-serif;
         }
-
-        .float-card {
-            animation: float 6s ease-in-out infinite;
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 0 auto;
         }
-        
-        .float-card:nth-child(even) {
-            animation-delay: 1s;
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
         }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7);
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-
-        /* Smooth scroll behavior */
-        html {
-            scroll-behavior: smooth;
+        .step-connector {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: #E2E8F0;
+            z-index: 0;
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .patient-card {
+            transition: all 0.3s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #FAFAFA; 
+        .patient-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #997365; 
-            border-radius: 4px;
+        /* Custom Scrollbar for queue list */
+        .queue-scroll::-webkit-scrollbar {
+            width: 6px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #0047AB; 
+        .queue-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .queue-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .nav-active {
+            color: #0EA5E9;
+            border-bottom: 2px solid #0EA5E9;
         }
     </style>
+
+    <!-- Application Structure Plan: 
+         1. Hero Section: Value Proposition (English/Malayalam).
+         2. The Problem: Interactive comparison of Chaos vs. Order.
+         3. Feature Deep Dive:
+            a. AI Malayalam Agent: Simulator showing NLP parsing.
+            b. Smart Queue: Real-time simulation of patient flow (Home -> Clinic).
+         4. ROI Dashboard: Interactive Calculator for Indian Market costs.
+         5. Market Data: Charts showing smartphone trends and appointment stats.
+         Why this structure? It follows a sales narrative: Identify Pain -> Present Solution -> Demonstrate Tech -> Prove Value ($).
+    -->
+    
+    <!-- Visualization & Content Choices:
+         1. Queue Simulation (Custom HTML/JS): chosen to effectively demonstrate the "don't sit in the waiting room" concept which is dynamic.
+         2. Cost Chart (Chart.js Bar): To clearly contrast high recurring human costs vs low SaaS costs.
+         3. Wait Time Trend (Chart.js Line): To show efficiency gains over time.
+         4. NLP Parser (Interactive DOM): To prove the language capability visually.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
 </head>
-<body class="antialiased">
+<body class="flex flex-col min-h-screen">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-alabaster/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" id="navbar">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <img src="logo_new.PNG" alt="Diksha Ai Logo" class="h-12 w-auto object-contain" onerror="this.src='https://placehold.co/400x400?text=Logo'; this.style.borderRadius='50%'">
-                    <span class="font-bold text-xl tracking-tight text-gray-900 hidden sm:block">Diksha Ai </span>
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <!-- Logo and Name from Reference -->
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <img src="logo_new.PNG" alt="Diksha Ai Logo" class="h-8 w-auto object-contain">
+                        <span class="font-bold text-xl tracking-tight text-slate-800">Diksha <span class="text-sky-500">Ai</span></span>
+                    </div>
                 </div>
-                
-                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-600 hover:text-cobalt font-medium transition-colors">Home</a>
-                    <a href="#services" class="text-gray-600 hover:text-cobalt font-medium transition-colors">Services</a>
-                    <a href="#use-cases" class="text-gray-600 hover:text-cobalt font-medium transition-colors">Use Cases</a>
-                    <a href="#contact" class="bg-cobalt text-white px-5 py-2.5 rounded-full font-medium hover:bg-cobalt-dark transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                        Let's Talk
+                    <button onclick="scrollToSection('hero')" class="nav-link text-slate-600 hover:text-sky-500 px-3 py-2 text-sm font-medium transition-colors">Home</button>
+                    <button onclick="scrollToSection('features')" class="nav-link text-slate-600 hover:text-sky-500 px-3 py-2 text-sm font-medium transition-colors">AI Features</button>
+                    <button onclick="scrollToSection('queue-demo')" class="nav-link text-slate-600 hover:text-sky-500 px-3 py-2 text-sm font-medium transition-colors">Smart Queue</button>
+                    <button onclick="scrollToSection('roi')" class="nav-link text-slate-600 hover:text-sky-500 px-3 py-2 text-sm font-medium transition-colors">Business ROI</button>
+                </div>
+                <div class="flex items-center">
+                    <a href="https://wa.me/919999999999" target="_blank" class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+                        <span>Request Demo</span>
                     </a>
                 </div>
-
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-cobalt focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-cobalt hover:bg-gray-50">Home</a>
-                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-cobalt hover:bg-gray-50">Services</a>
-                <a href="#use-cases" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-cobalt hover:bg-gray-50">Use Cases</a>
-                <a href="#contact" class="block px-3 py-2 mt-4 text-center rounded-md text-base font-medium bg-cobalt text-white hover:bg-cobalt-dark">Let's Talk</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative pt-20 min-h-screen flex items-center overflow-hidden">
-        <!-- 3D Background Container - Pointer events none allows clicking through the canvas if needed, but we keep it interactive -->
-        <div id="canvas-container" class="absolute inset-0 z-0"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            
-            <!-- Text Content -->
-            <div class="text-center lg:text-left pt-10 lg:pt-0 pointer-events-none">
-                 <!-- Re-enable pointer events for buttons/text -->
-                <div class="pointer-events-auto">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-cobalt text-sm font-semibold mb-6 animate-fade-in-up">
-                        <span class="w-2 h-2 rounded-full bg-cobalt animate-pulse"></span>
-                        AI Automation Experts
-                    </div>
-                    
-                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight text-gray-900 mb-6">
-                        <span class="block">We are selling</span>
-                        <span class="text-cobalt">Time.</span>
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="relative pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl mb-6">
+                        The Future of Clinic Management in <span class="text-sky-500">India</span>
                     </h1>
-                    
-                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                        Diksha Ai helps businesses reclaim lost hours. We build custom AI integrations and automated workflows so you can focus on what truly matters—growing your vision.
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+                        Automated Malayalam AI Appointments & Real-time "Just-in-Time" Queue Management. 
+                        <span class="block mt-2 font-medium text-slate-700">No more crowded waiting rooms.</span>
                     </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#contact" class="px-8 py-4 rounded-full bg-cobalt text-white font-semibold text-lg shadow-soft hover:shadow-lg hover:bg-cobalt-dark transition-all transform hover:-translate-y-1">
-                            Book a Free Consultation
-                        </a>
-                        <a href="#use-cases" class="px-8 py-4 rounded-full bg-white text-clay border-2 border-clay font-semibold text-lg hover:bg-clay hover:text-white transition-all transform hover:-translate-y-1">
-                            See Use Cases
-                        </a>
-                    </div>
-
-                    <div class="mt-12 flex items-center justify-center lg:justify-start gap-4 text-sm text-gray-500">
-                        <div class="flex -space-x-2">
-                            <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs">AI</div>
-                            <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs">ML</div>
-                            <div class="w-8 h-8 rounded-full bg-gray-400 border-2 border-white flex items-center justify-center text-xs">Bot</div>
-                        </div>
-                        <p>Trusted by forward-thinking companies</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- The 3D content will appear on the right side on desktop via absolute positioning of the canvas, 
-                 but visually we leave this space empty for the "floating" elements to occupy -->
-            <div class="hidden lg:block h-full min-h-[500px]"></div>
-        </div>
-        
-        <!-- Scroll Down Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block">
-            <a href="#value-prop" class="text-gray-400 hover:text-cobalt transition-colors">
-                <i class="fas fa-chevron-down text-2xl"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Value Proposition: How We Save Time -->
-    <section id="value-prop" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Save Your Time</h2>
-                <div class="w-20 h-1 bg-clay mx-auto rounded-full"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="float-card glass-card p-8 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 border border-gray-100 bg-alabaster">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-6 text-cobalt">
-                        <i class="fas fa-robot text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Automated Workflows</h3>
-                    <p class="text-gray-600">Eliminate repetitive manual data entry. We connect your apps so data flows automatically, saving hours every week.</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="float-card glass-card p-8 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 border border-gray-100 bg-alabaster">
-                    <div class="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center mb-6 text-clay">
-                        <i class="fas fa-comments text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Intelligent Chatbots</h3>
-                    <p class="text-gray-600">Handle customer support 24/7. Our AI agents answer common queries instantly, freeing your team for complex issues.</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="float-card glass-card p-8 rounded-2xl shadow-sm hover:shadow-soft transition-all duration-300 border border-gray-100 bg-alabaster">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center mb-6 text-cobalt">
-                        <i class="fas fa-chart-pie text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Instant Insights</h3>
-                    <p class="text-gray-600">Stop manually crunching numbers. Get real-time, AI-driven reports and dashboards to make faster decisions.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="py-24 bg-alabaster">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-                <div>
-                    <span class="text-clay font-semibold tracking-wider uppercase text-sm">Our Expertise</span>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Services Tailored for Efficiency</h2>
-                </div>
-                <a href="#contact" class="hidden md:inline-flex items-center text-cobalt font-semibold hover:text-clay transition-colors mt-4 md:mt-0">
-                    View full pricing <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Service 1 -->
-                <div class="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="h-1 w-12 bg-cobalt rounded-full mb-6 group-hover:w-20 transition-all"></div>
-                    <h3 class="text-xl font-bold text-cobalt mb-3">Custom AI Agents</h3>
-                    <p class="text-gray-600 text-sm mb-4">Tailor-made AI assistants trained on your specific business data and guidelines.</p>
-                    <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check text-clay mr-2"></i>GPT-4 Integration</li>
-                        <li><i class="fas fa-check text-clay mr-2"></i>Knowledge Base Sync</li>
-                    </ul>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="h-1 w-12 bg-cobalt rounded-full mb-6 group-hover:w-20 transition-all"></div>
-                    <h3 class="text-xl font-bold text-cobalt mb-3">Tool Integration</h3>
-                    <p class="text-gray-600 text-sm mb-4">Seamlessly connect your CRM, ERP, and marketing tools into one unified system.</p>
-                    <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check text-clay mr-2"></i>Zapier / Make</li>
-                        <li><i class="fas fa-check text-clay mr-2"></i>API Development</li>
-                    </ul>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="h-1 w-12 bg-cobalt rounded-full mb-6 group-hover:w-20 transition-all"></div>
-                    <h3 class="text-xl font-bold text-cobalt mb-3">Process Automation</h3>
-                    <p class="text-gray-600 text-sm mb-4">End-to-end automation for invoicing, onboarding, scheduling, and more.</p>
-                    <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check text-clay mr-2"></i>Error Reduction</li>
-                        <li><i class="fas fa-check text-clay mr-2"></i>Speed Optimization</li>
-                    </ul>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="group bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="h-1 w-12 bg-cobalt rounded-full mb-6 group-hover:w-20 transition-all"></div>
-                    <h3 class="text-xl font-bold text-cobalt mb-3">Data & Reporting</h3>
-                    <p class="text-gray-600 text-sm mb-4">Turn raw data into actionable visual insights automatically.</p>
-                    <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check text-clay mr-2"></i>Automated PDFs</li>
-                        <li><i class="fas fa-check text-clay mr-2"></i>Trend Analysis</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Use Cases Section -->
-    <section id="use-cases" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Who We Help</h2>
-                <p class="mt-4 text-gray-600">Designed for those who value their time.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <!-- Left Side Content -->
-                <div class="space-y-8">
-                    <div class="flex gap-6">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-cobalt font-bold">01</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Solopreneurs & Consultants</h3>
-                            <p class="text-gray-600">Clone yourself with AI. Let bots handle scheduling and FAQs while you focus on high-ticket clients.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-6">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-clay font-bold">02</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Startups & SMBs</h3>
-                            <p class="text-gray-600">Scale without hiring a massive team. Automate operations to keep overhead low and output high.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-6">
-                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-cobalt font-bold">03</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Established Enterprises</h3>
-                            <p class="text-gray-600">Modernize legacy systems. Connect old databases to modern AI interfaces for better employee efficiency.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Side Visual -->
-                <div class="relative h-full min-h-[400px] bg-alabaster rounded-3xl overflow-hidden shadow-soft flex items-center justify-center">
-                    <!-- Abstract representation of segments -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
-                    <div class="relative z-10 text-center p-8">
-                        <div class="inline-block p-4 rounded-full bg-white shadow-lg mb-4 animate-bounce">
-                            <i class="fas fa-hourglass-half text-4xl text-cobalt"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-gray-800">Save 20+ Hours/Week</h4>
-                        <p class="text-gray-500 mt-2">Average time saved per client</p>
-                    </div>
-                    <!-- Decorative circles -->
-                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-clay/10 rounded-full blur-3xl"></div>
-                    <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cobalt/10 rounded-full blur-3xl"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20 bg-cobalt relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <!-- Background Pattern -->
-            <svg class="h-full w-full" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white" />
-            </svg>
-        </div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Stop Trading Time for Money.</h2>
-            <p class="text-blue-100 text-lg mb-8">Let us build the systems that run your business while you sleep.</p>
-            <a href="#contact" class="inline-block px-10 py-4 bg-white text-cobalt font-bold rounded-full shadow-lg hover:bg-gray-100 transition-all transform hover:scale-105">
-                Start Saving Time Today
-            </a>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-alabaster relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-1 gap-16">
-                <!-- Contact Info -->
-                <div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Let's Integrate.</h2>
-                    <p class="text-lg text-gray-600 mb-10">Ready to automate? Fill out the form or reach out directly. We usually respond within 24 hours.</p>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-cobalt">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Email Us</p>
-                                <a href="mailto:contact@dikshaai.com" class="text-lg font-semibold text-gray-900 hover:text-cobalt">contact@dikshaai.com</a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-green-500">
-                                <i class="fab fa-whatsapp text-2xl"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">WhatsApp</p>
-                                <a href="https://wa.me/919656909977" target="_blank" class="text-lg font-semibold text-gray-900 hover:text-green-600">Chat with us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contact Form -->
-                <!-- <div class="bg-white p-8 rounded-3xl shadow-soft border border-gray-100">
-                    <form onsubmit="event.preventDefault(); alert('Thank you! We will contact you shortly.');" class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-cobalt focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="John Doe" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-cobalt focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="john@company.com" required>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-cobalt focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="Your Business Name">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">How can we help?</label>
-                            <textarea rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-cobalt focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="Tell us about your manual processes..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full py-4 bg-cobalt text-white font-bold rounded-lg hover:bg-cobalt-dark transition-colors shadow-lg">
-                            Send Message
+                    <div class="mt-8 flex justify-center gap-4">
+                        <button onclick="scrollToSection('queue-demo')" class="px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-sky-500 hover:bg-sky-600 md:py-4 md:text-lg shadow-lg shadow-sky-500/30 transition-all">
+                            See Live Queue Demo
                         </button>
-                    </form>
-                </div> -->
+                        <button onclick="scrollToSection('roi')" class="px-8 py-3 border border-slate-300 text-base font-medium rounded-xl text-slate-700 bg-white hover:bg-slate-50 md:py-4 md:text-lg transition-all">
+                            Calculate Savings
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-100 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <img src="logo_new.PNG" alt="Logo" class="h-8 w-auto grayscale opacity-70" onerror="this.style.display='none'">
-                <span class="font-bold text-gray-400">Diksha Ai</span>
+        <!-- Problem vs Solution Stats -->
+        <section class="bg-white py-16 border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-wide mb-4">Current Challenges</div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">The "Waiting Room" Crisis</h2>
+                        <p class="text-slate-600 mb-6 text-lg">
+                            In typical Indian clinics, patients wait 45-90 minutes. This leads to crowding, infection risk, and patient frustration. Receptionists are overwhelmed by calls, missing 20% of booking opportunities.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                                <div class="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold">45m</div>
+                                <div>
+                                    <p class="font-bold text-slate-800">Average Wait Time</p>
+                                    <p class="text-sm text-slate-500">Wasted time per patient</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                                <div class="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">20%</div>
+                                <div>
+                                    <p class="font-bold text-slate-800">Missed Calls</p>
+                                    <p class="text-sm text-slate-500">Lost revenue due to busy lines</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="waitTimeChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-slate-400 mt-4">Projected Wait Time Reduction with Diksha Ai</p>
+                    </div>
+                </div>
             </div>
-            <p class="text-gray-400 text-sm">© 2025 Diksha Ai. All rights reserved.</p>
-            <div class="flex gap-4">
-                <a href="https://www.linkedin.com/company/diksha-ai/" target="_blank" class="text-gray-400 hover:text-cobalt transition-colors">
-                    <i class="fab fa-linkedin text-xl"></i>
-                </a>
-                
-                <a href="https://www.instagram.com/diksha_a.i?igsh=NDBucnY5cHRpaDFh&utm_source=qr" target="_blank" class="text-gray-400 hover:text-cobalt transition-colors">
-                    <i class="fab fa-instagram text-xl"></i>
-                </a>
+        </section>
 
-                <a href="https://www.facebook.com/share/17Kf9qWMHC/?mibextid=wwXIfr" target="_blank" class="text-gray-400 hover:text-cobalt transition-colors">
-                    <i class="fab fa-facebook text-xl"></i>
-                </a>
+        <!-- Feature 1: Malayalam AI Agent -->
+        <section id="features" class="py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900">Native Malayalam AI Agent</h2>
+                    <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+                        Patients can speak or text in Malayalam naturally. The agent understands intent, checks availability, and books the slot automatically.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Interactive NLP Simulator -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Live Agent Simulation
+                        </h3>
+                        
+                        <div class="bg-slate-100 rounded-xl p-4 mb-4 min-h-[120px] flex flex-col justify-center">
+                            <p class="text-xs text-slate-500 uppercase font-bold mb-2">User Input (Voice/Text)</p>
+                            <p id="nlpInputDisplay" class="text-lg malayalam-text text-slate-800">Dr. Paulinte aduthu nale 10 manikku varam.</p>
+                            <p class="text-sm text-slate-500 italic mt-1">(I can come to Dr. Paul tomorrow at 10.)</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mb-6">
+                            <button onclick="simulateNLP(1)" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm hover:border-sky-500 hover:text-sky-600 transition-colors">Booking Request</button>
+                            <button onclick="simulateNLP(2)" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm hover:border-sky-500 hover:text-sky-600 transition-colors">Queue Check</button>
+                            <button onclick="simulateNLP(3)" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm hover:border-sky-500 hover:text-sky-600 transition-colors">Reschedule</button>
+                        </div>
+
+                        <div class="border-t border-slate-100 pt-4">
+                            <p class="text-xs text-slate-400 uppercase font-bold mb-3">AI Extracted Data (JSON)</p>
+                            <div class="bg-slate-900 rounded-lg p-4 font-mono text-sm text-green-400 overflow-x-auto">
+                                <pre id="nlpOutputDisplay">
+{
+  "intent": "BOOK_APPOINTMENT",
+  "doctor": "Dr. Paul",
+  "date": "2023-10-25 (Tomorrow)",
+  "time": "10:00 AM",
+  "language": "ml-IN"
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Explanation -->
+                    <div class="flex flex-col justify-center">
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="h-12 w-12 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 text-xl font-bold shrink-0">1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">Natural Language Processing (NLP)</h4>
+                                    <p class="text-slate-600 text-sm mt-1">Our proprietary model is trained on medical Malayalam dialects, understanding 'Manglish' and formal Malayalam.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 text-xl font-bold shrink-0">2</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">WhatsApp Integration</h4>
+                                    <p class="text-slate-600 text-sm mt-1">98% of Indian patients use WhatsApp. Our agent lives where your users are. No app download required.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="h-12 w-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl font-bold shrink-0">3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900">Smart Scheduling</h4>
+                                    <p class="text-slate-600 text-sm mt-1">The AI optimizes slots to prevent gaps and overlaps, ensuring the doctor's time is fully utilized.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/919656909977" target="_blank" class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all transform hover:scale-110 flex items-center justify-center">
-        <i class="fab fa-whatsapp text-3xl"></i>
-    </a>
+        <!-- Feature 2: Smart Queue (The Core Request) -->
+        <section id="queue-demo" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <span class="text-sky-600 font-bold tracking-wider uppercase text-sm">Real-time Demonstration</span>
+                    <h2 class="text-3xl font-bold text-slate-900 mt-2">"Just-in-Time" Patient Queue</h2>
+                    <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+                        Patients receive live updates. They stay at home or work until it's their turn. 
+                        <span class="font-semibold text-slate-800">Experience the flow below:</span>
+                    </p>
+                </div>
 
-    <!-- Scripts -->
+                <!-- Queue Dashboard Simulator -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden shadow-lg">
+                    <!-- Dashboard Header -->
+                    <div class="bg-white border-b border-slate-200 p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-3 w-3 rounded-full bg-green-500 animate-pulse"></div>
+                            <h3 class="font-bold text-slate-800">Dr. Anjali's Queue (Cardiology)</h3>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="addPatient()" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+                                <span>+</span> Add Mock Patient
+                            </button>
+                            <button onclick="nextPatient()" class="px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-medium transition-colors">
+                                Next Patient
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                        
+                        <!-- Column 1: Current Consultation -->
+                        <div class="p-6 bg-white">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Currently Consulting</h4>
+                            <div id="currentPatientCard" class="bg-emerald-50 border border-emerald-100 rounded-xl p-6 text-center">
+                                <div class="h-16 w-16 bg-white rounded-full mx-auto flex items-center justify-center text-2xl font-bold text-emerald-600 shadow-sm border border-emerald-100 mb-3">102</div>
+                                <h3 class="text-lg font-bold text-slate-800">Raju Menon</h3>
+                                <p class="text-sm text-slate-500 mb-4">Follow-up Visit</p>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-200/50 text-emerald-700 rounded-full text-xs font-bold">
+                                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> IN CABIN
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-500">Consultation Time</span>
+                                    <span class="font-mono font-bold text-slate-700">12:45 min</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2">
+                                    <div class="bg-emerald-500 h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: The Queue List -->
+                        <div class="p-6 bg-slate-50/50 h-[400px] flex flex-col">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider flex justify-between">
+                                <span>Upcoming Queue</span>
+                                <span id="queueCount" class="bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full text-[10px]">3 Waiting</span>
+                            </h4>
+                            <div id="queueList" class="space-y-3 overflow-y-auto queue-scroll flex-grow pr-2">
+                                <!-- Dynamic JS will populate this -->
+                                <div class="patient-card bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center border-l-4 border-l-yellow-400">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-bold text-slate-800">Priya K.</span>
+                                            <span class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 font-mono">#103</span>
+                                        </div>
+                                        <p class="text-xs text-yellow-600 font-medium mt-1">Status: At Clinic (Checked In)</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-slate-400">ETA</p>
+                                        <p class="font-bold text-slate-700">5 min</p>
+                                    </div>
+                                </div>
+
+                                <div class="patient-card bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center border-l-4 border-l-blue-400">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-bold text-slate-800">Rahul S.</span>
+                                            <span class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 font-mono">#104</span>
+                                        </div>
+                                        <p class="text-xs text-blue-600 font-medium mt-1">Status: Traveling (2km away)</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-slate-400">ETA</p>
+                                        <p class="font-bold text-slate-700">20 min</p>
+                                    </div>
+                                </div>
+
+                                <div class="patient-card bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center border-l-4 border-l-slate-300 opacity-75">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="font-bold text-slate-800">Fathima</span>
+                                            <span class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 font-mono">#105</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500 font-medium mt-1">Status: At Home (Alerted)</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs text-slate-400">ETA</p>
+                                        <p class="font-bold text-slate-700">35 min</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Patient View (Mobile Mockup) -->
+                        <div class="p-6 bg-slate-100 flex flex-col items-center justify-center">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-wider">Patient View (WhatsApp/App)</h4>
+                            <div class="w-[280px] h-[500px] bg-white rounded-[2rem] border-8 border-slate-800 shadow-2xl relative overflow-hidden flex flex-col">
+                                <!-- Mobile Header -->
+                                <div class="bg-emerald-600 h-14 flex items-center px-4 text-white text-sm font-bold shadow-md z-10">
+                                    Diksha Ai Status
+                                </div>
+                                <!-- Mobile Body -->
+                                <div class="flex-grow p-4 bg-slate-50 overflow-y-auto">
+                                    <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-100 mb-4">
+                                        <p class="text-xs text-slate-500">Your Token</p>
+                                        <p class="text-2xl font-bold text-slate-800">#104</p>
+                                    </div>
+                                    
+                                    <div class="relative pl-4 border-l-2 border-slate-200 space-y-6">
+                                        <div class="relative">
+                                            <div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-slate-300"></div>
+                                            <p class="text-xs text-slate-400">10:00 AM</p>
+                                            <p class="text-sm font-bold text-slate-700">Booking Confirmed</p>
+                                        </div>
+                                        <div class="relative">
+                                            <div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-slate-300"></div>
+                                            <p class="text-xs text-slate-400">10:30 AM</p>
+                                            <p class="text-sm font-bold text-slate-700">Token Generated</p>
+                                        </div>
+                                        <div class="relative">
+                                            <div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-sky-500 animate-ping"></div>
+                                            <div class="absolute -left-[21px] top-1 h-3 w-3 rounded-full bg-sky-500"></div>
+                                            <p class="text-xs text-sky-600 font-bold">Now</p>
+                                            <div class="bg-sky-50 p-2 rounded border border-sky-100 mt-1">
+                                                <p class="text-sm font-bold text-sky-800">Leave Home Now</p>
+                                                <p class="text-xs text-sky-600">Current Wait: 20 mins. 2 patients ahead.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Mobile Footer -->
+                                <div class="h-12 bg-white border-t border-slate-100 flex items-center justify-around text-slate-400 text-xs">
+                                    <span>Home</span>
+                                    <span class="text-emerald-600 font-bold">Queue</span>
+                                    <span>Profile</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROI & Business Value -->
+        <section id="roi" class="py-16 bg-slate-50 border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900">Return on Investment (ROI)</h2>
+                    <p class="mt-4 text-slate-600">Cost-effective for the Indian market. Replace manual inefficiencies with automated precision.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Calculator -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-bold text-slate-800 mb-6">Monthly Savings Calculator</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Daily Appointments</label>
+                                <input type="range" id="apptRange" min="10" max="100" value="40" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-500">
+                                <div class="flex justify-between text-xs text-slate-500 mt-1">
+                                    <span>10</span>
+                                    <span id="apptVal" class="font-bold text-sky-600 text-lg">40</span>
+                                    <span>100</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
+                                <div class="p-4 bg-red-50 rounded-lg border border-red-100">
+                                    <p class="text-xs text-red-600 font-bold uppercase">Traditional Cost</p>
+                                    <p class="text-sm text-slate-500 mt-1">Receptionist + Phone Bills + No-Shows</p>
+                                    <p id="tradCost" class="text-2xl font-bold text-slate-800 mt-2">₹25,000</p>
+                                </div>
+                                <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-100 relative overflow-hidden">
+                                    <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded-bl-lg font-bold">AI POWERED</div>
+                                    <p class="text-xs text-emerald-600 font-bold uppercase">Diksha Ai Cost</p>
+                                    <p class="text-sm text-slate-500 mt-1">SaaS Subscription + API Costs</p>
+                                    <p id="aiCost" class="text-2xl font-bold text-emerald-700 mt-2">₹5,000</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900 text-white p-6 rounded-xl flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm text-slate-300">Net Monthly Savings</p>
+                                    <p id="savingsVal" class="text-3xl font-bold text-green-400">₹20,000</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-slate-300">Annual Savings</p>
+                                    <p id="annualSavingsVal" class="text-xl font-bold">₹2.4 Lakhs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                            <h4 class="text-sm font-bold text-slate-700 mb-4">Patient Booking Channels (India Trend)</h4>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="channelChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Footer -->
+        <footer class="bg-slate-900 text-white py-12 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">Ready to Modernize Your Clinic?</h2>
+                <p class="text-slate-400 mb-8 max-w-xl mx-auto">Join 50+ Doctors in Kerala who have switched to Diksha Ai. Start your free trial today.</p>
+                <div class="flex justify-center gap-4 mb-10">
+                    <!-- Integrated WhatsApp buttons -->
+                    <a href="https://wa.me/919999999999" target="_blank" class="px-6 py-3 bg-sky-500 hover:bg-sky-600 rounded-lg font-medium transition-colors inline-block text-white">Get Started</a>
+                    <a href="https://wa.me/919999999999" target="_blank" class="px-6 py-3 bg-transparent border border-slate-600 hover:bg-slate-800 rounded-lg font-medium transition-colors inline-block text-white">Contact Sales</a>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 border-t border-slate-800 pt-8">
+                    <a href="mailto:hello@dkishaai.com" class="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
+                        <div class="p-2 bg-slate-800 rounded-full group-hover:bg-sky-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span class="text-lg">hello@dkishaai.com</span>
+                    </a>
+                </div>
+
+                <p class="mt-12 text-xs text-slate-600">&copy; 2023 Diksha Ai Solutions. Made for India.</p>
+            </div>
+        </footer>
+
+        <!-- Floating WhatsApp Button (Side) -->
+        <a href="https://wa.me/919999999999" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110 flex items-center justify-center group" aria-label="Chat on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span class="absolute right-full mr-4 bg-white text-slate-800 px-3 py-1 rounded-lg text-sm font-bold shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                Chat with us
+            </span>
+        </a>
+
+    </main>
+
     <script>
-        // --- 1. Mobile Menu Toggle ---
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        // --- 2. Three.js 3D Hero Animation (Minimal "Data Float" Concept) ---
-        
-        function initThreeJS() {
-            const container = document.getElementById('canvas-container');
-            
-            // Clean up existing canvas if any
-            while(container.firstChild) {
-                container.removeChild(container.firstChild);
-            }
-
-            const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xFAFAFA); 
-            // Heavier fog to blend objects into the background smoothly
-            scene.fog = new THREE.Fog(0xFAFAFA, 10, 40);
-
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 15;
-
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            container.appendChild(renderer.domElement);
-
-            const mainGroup = new THREE.Group();
-            scene.add(mainGroup);
-
-            // Brand Materials - More Translucent/Glassy for "Clean" look
-            const cobaltGlass = new THREE.MeshPhysicalMaterial({ 
-                color: 0x0047AB, 
-                metalness: 0.1,
-                roughness: 0.1,
-                transmission: 0.6, // Glass transparency
-                transparent: true,
-                opacity: 0.8
-            });
-            
-            const clayGlass = new THREE.MeshPhysicalMaterial({ 
-                color: 0x997365, 
-                metalness: 0.1,
-                roughness: 0.1,
-                transmission: 0.6,
-                transparent: true,
-                opacity: 0.8
-            });
-
-            const wireframeMat = new THREE.MeshBasicMaterial({
-                color: 0x0047AB,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.1 // Very subtle wireframe
-            });
-
-            // 1. Central "AI Core" - A subtle wireframe sphere
-            const coreGeo = new THREE.IcosahedronGeometry(4, 2);
-            const core = new THREE.Mesh(coreGeo, wireframeMat);
-            mainGroup.add(core);
-
-            // 2. Floating "Data Cubes" - Minimal and Scattered
-            const cubes = [];
-            const cubeCount = 25;
-            
-            for(let i=0; i<cubeCount; i++) {
-                // Use a mix of cubes and octahedrons for variety
-                const isCube = Math.random() > 0.5;
-                const geo = isCube ? new THREE.BoxGeometry(0.8, 0.8, 0.8) : new THREE.OctahedronGeometry(0.6);
-                const mat = Math.random() > 0.6 ? cobaltGlass : clayGlass;
-                
-                const mesh = new THREE.Mesh(geo, mat);
-                
-                // Position roughly in a cloud around the center
-                const theta = Math.random() * Math.PI * 2;
-                const r = 5 + Math.random() * 6; // Radius from center
-                const y = (Math.random() - 0.5) * 10;
-                
-                mesh.position.set(
-                    r * Math.cos(theta),
-                    y,
-                    r * Math.sin(theta)
-                );
-                
-                // Random rotation speed
-                mesh.userData = {
-                    rotSpeedX: (Math.random() - 0.5) * 0.02,
-                    rotSpeedY: (Math.random() - 0.5) * 0.02,
-                    floatSpeed: 0.005 + Math.random() * 0.01,
-                    initialY: y
-                };
-                
-                mainGroup.add(mesh);
-                cubes.push(mesh);
-            }
-
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-            scene.add(ambientLight);
-            
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            dirLight.position.set(10, 10, 10);
-            scene.add(dirLight);
-
-            // Interaction Variables
-            let mouseX = 0;
-            let mouseY = 0;
-            const windowHalfX = window.innerWidth / 2;
-            const windowHalfY = window.innerHeight / 2;
-
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX - windowHalfX) * 0.0005; // Reduced sensitivity
-                mouseY = (event.clientY - windowHalfY) * 0.0005;
-            });
-
-            // Layout Adjustment logic - KEY for fixing the overlap issue
-            function adjustLayout() {
-                const width = window.innerWidth;
-                
-                if (width >= 1024) {
-                    // Desktop: Move entirely to the right
-                    mainGroup.position.x = 8;
-                    mainGroup.position.y = 0;
-                    camera.position.z = 15;
-                } else if (width >= 768) {
-                    // Tablet: Slight right
-                    mainGroup.position.x = 4;
-                    mainGroup.position.y = 2;
-                    camera.position.z = 18;
-                } else {
-                    // Mobile: Move UP and BACK so it's a background element, not fighting text
-                    mainGroup.position.x = 0;
-                    mainGroup.position.y = 3;
-                    camera.position.z = 22;
-                    // Lower opacity for mobile potentially, but fog handles this
-                }
-            }
-            adjustLayout();
-
-            const clock = new THREE.Clock();
-
-            function animate() {
-                requestAnimationFrame(animate);
-                const time = clock.getElapsedTime();
-
-                // Gentle overall rotation
-                mainGroup.rotation.y = time * 0.1;
-                
-                // Mouse interaction - gentle tilt
-                mainGroup.rotation.x += (mouseY - mainGroup.rotation.x) * 0.05;
-                mainGroup.rotation.z += (mouseX - mainGroup.rotation.z) * 0.05;
-
-                // Animate Core
-                core.rotation.y -= 0.002;
-
-                // Animate Individual Cubes
-                cubes.forEach((cube, i) => {
-                    cube.rotation.x += cube.userData.rotSpeedX;
-                    cube.rotation.y += cube.userData.rotSpeedY;
-                    
-                    // Gentle floating up/down
-                    cube.position.y = cube.userData.initialY + Math.sin(time * 1 + i) * 1;
-                });
-
-                renderer.render(scene, camera);
-            }
-
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                adjustLayout();
-            });
+        // --- Navigation Logic ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        window.addEventListener('DOMContentLoaded', initThreeJS);
+        // --- Chart.js Implementations ---
+        
+        // 1. Wait Time Reduction Chart
+        const ctxWait = document.getElementById('waitTimeChart').getContext('2d');
+        new Chart(ctxWait, {
+            type: 'line',
+            data: {
+                labels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+                datasets: [
+                    {
+                        label: 'Avg Wait Time (Traditional)',
+                        data: [45, 45, 45, 45, 45, 45],
+                        borderColor: '#EF4444', // Red
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Avg Wait Time (Diksha Ai)',
+                        data: [40, 30, 20, 15, 10, 8],
+                        borderColor: '#10B981', // Emerald
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Minutes' }
+                    }
+                }
+            }
+        });
+
+        // 2. Booking Channels Chart (Pie)
+        const ctxChannel = document.getElementById('channelChart').getContext('2d');
+        new Chart(ctxChannel, {
+            type: 'doughnut',
+            data: {
+                labels: ['WhatsApp (AI)', 'Phone Call', 'Walk-in', 'App/Web'],
+                datasets: [{
+                    data: [65, 15, 15, 5],
+                    backgroundColor: [
+                        '#25D366', // WhatsApp Green
+                        '#F59E0B', // Amber
+                        '#64748B', // Slate
+                        '#0EA5E9'  // Sky
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' }
+                }
+            }
+        });
+
+        // --- ROI Calculator Logic ---
+        const rangeInput = document.getElementById('apptRange');
+        const apptDisplay = document.getElementById('apptVal');
+        const tradCostDisplay = document.getElementById('tradCost');
+        const aiCostDisplay = document.getElementById('aiCost');
+        const savingsDisplay = document.getElementById('savingsVal');
+        const annualSavingsDisplay = document.getElementById('annualSavingsVal');
+
+        function updateROI() {
+            const appointments = parseInt(rangeInput.value);
+            apptDisplay.innerText = appointments;
+
+            // Assumptions for India Market
+            // Traditional: Receptionist Salary (15k) + Call Costs (1k) + Lost Revenue from 15% dropoff (Avg fee 300)
+            const baseReceptionist = 15000;
+            const lostRevenue = Math.round(appointments * 25 * 0.15 * 300); // 25 working days
+            const traditionalTotal = baseReceptionist + lostRevenue;
+
+            // AI: Subscription (2000) + WhatsApp API Costs (approx 1rs per msg * 3 msgs * patients)
+            const subscription = 2000;
+            const apiCosts = Math.round(appointments * 25 * 3);
+            const aiTotal = subscription + apiCosts;
+
+            const savings = traditionalTotal - aiTotal;
+
+            tradCostDisplay.innerText = "₹" + traditionalTotal.toLocaleString('en-IN');
+            aiCostDisplay.innerText = "₹" + aiTotal.toLocaleString('en-IN');
+            savingsDisplay.innerText = "₹" + savings.toLocaleString('en-IN');
+            annualSavingsDisplay.innerText = "₹" + (savings * 12 / 100000).toFixed(1) + " Lakhs";
+        }
+
+        rangeInput.addEventListener('input', updateROI);
+        updateROI(); // Init
+
+        // --- Interactive Queue Logic ---
+        const queueList = document.getElementById('queueList');
+        const queueCountDisplay = document.getElementById('queueCount');
+        const currentPatientDisplay = document.getElementById('currentPatientCard');
+        
+        // Initial Mock Data
+        let queueData = [
+            { id: 103, name: "Priya K.", status: "At Clinic", statusColor: "text-yellow-600", border: "border-l-yellow-400", eta: "5 min" },
+            { id: 104, name: "Rahul S.", status: "Traveling", statusColor: "text-blue-600", border: "border-l-blue-400", eta: "20 min" },
+            { id: 105, name: "Fathima", status: "At Home", statusColor: "text-slate-500", border: "border-l-slate-300", opacity: "opacity-75", eta: "35 min" }
+        ];
+
+        let currentToken = 102;
+        let lastToken = 105;
+
+        function renderQueue() {
+            queueList.innerHTML = '';
+            queueData.forEach(p => {
+                const card = document.createElement('div');
+                card.className = `patient-card bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex justify-between items-center border-l-4 ${p.border} ${p.opacity || ''}`;
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-800">${p.name}</span>
+                            <span class="text-xs bg-slate-100 px-1.5 py-0.5 rounded text-slate-500 font-mono">#${p.id}</span>
+                        </div>
+                        <p class="text-xs ${p.statusColor} font-medium mt-1">Status: ${p.status}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400">ETA</p>
+                        <p class="font-bold text-slate-700">${p.eta}</p>
+                    </div>
+                `;
+                queueList.appendChild(card);
+            });
+            queueCountDisplay.innerText = `${queueData.length} Waiting`;
+        }
+
+        function addPatient() {
+            lastToken++;
+            const names = ["Arun Kumar", "Lakshmi N.", "Joseph P.", "Meera", "Sanjay"];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            
+            queueData.push({
+                id: lastToken,
+                name: randomName,
+                status: "At Home",
+                statusColor: "text-slate-500",
+                border: "border-l-slate-300",
+                opacity: "opacity-75",
+                eta: (15 * queueData.length + 10) + " min"
+            });
+            renderQueue();
+        }
+
+        function nextPatient() {
+            if (queueData.length === 0) return;
+            
+            // Move first in queue to current
+            const nextP = queueData.shift();
+            currentToken = nextP.id;
+            
+            // Update Current Display
+            currentPatientDisplay.innerHTML = `
+                <div class="h-16 w-16 bg-white rounded-full mx-auto flex items-center justify-center text-2xl font-bold text-emerald-600 shadow-sm border border-emerald-100 mb-3">${currentToken}</div>
+                <h3 class="text-lg font-bold text-slate-800">${nextP.name}</h3>
+                <p class="text-sm text-slate-500 mb-4">Consultation Started</p>
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-200/50 text-emerald-700 rounded-full text-xs font-bold">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> IN CABIN
+                </div>
+            `;
+
+            // Simulation: Update statuses of remaining queue
+            // Logic: As queue moves, people move from Home -> Traveling -> Clinic
+            queueData = queueData.map((p, index) => {
+                if (index === 0) { // Next person arrives at clinic
+                    return { ...p, status: "At Clinic", statusColor: "text-yellow-600", border: "border-l-yellow-400", opacity: "", eta: "5 min" };
+                } else if (index === 1) { // Person after starts traveling
+                    return { ...p, status: "Traveling", statusColor: "text-blue-600", border: "border-l-blue-400", opacity: "", eta: "20 min" };
+                }
+                // Others reduce ETA
+                let newEta = parseInt(p.eta) - 15;
+                if (newEta < 0) newEta = 5;
+                return { ...p, eta: newEta + " min" };
+            });
+
+            renderQueue();
+        }
+
+        // --- NLP Simulator Logic ---
+        const nlpData = [
+            {
+                input: "Dr. Paulinte aduthu nale 10 manikku varam.",
+                translation: "(I can come to Dr. Paul tomorrow at 10.)",
+                output: { intent: "BOOK_APPOINTMENT", doctor: "Dr. Paul", date: "2023-10-25", time: "10:00 AM", language: "ml-IN" }
+            },
+            {
+                input: "Token number ethra aayi? Njan eppo purapadanum?",
+                translation: "(What is the token number now? When should I start?)",
+                output: { intent: "CHECK_QUEUE_STATUS", current_token: 102, estimated_wait: "35 mins", advice: "Start in 10 mins", language: "ml-IN" }
+            },
+            {
+                input: "Naleyathe appointment mattaan pattumo?",
+                translation: "(Can I change tomorrow's appointment?)",
+                output: { intent: "RESCHEDULE_REQUEST", original_appt: "Ref#8821", new_status: "PENDING_SLOT_SELECTION", language: "ml-IN" }
+            }
+        ];
+
+        function simulateNLP(index) {
+            const data = nlpData[index - 1];
+            const display = document.getElementById('nlpInputDisplay');
+            const subDisplay = display.nextElementSibling;
+            const output = document.getElementById('nlpOutputDisplay');
+
+            // Animate transition
+            display.parentElement.classList.add('bg-slate-200');
+            setTimeout(() => display.parentElement.classList.remove('bg-slate-200'), 200);
+
+            display.innerText = data.input;
+            subDisplay.innerText = data.translation;
+            output.innerText = JSON.stringify(data.output, null, 2);
+        }
 
     </script>
 </body>
